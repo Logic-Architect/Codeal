@@ -1,0 +1,5 @@
+{
+    "editor.autoClosingDelete": "always",
+    "editor.formatOnSave": true,
+    "diffEditor.wordWrap": "on"
+}
