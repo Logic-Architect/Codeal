@@ -1,5 +1,6 @@
 {
-    "editor.autoClosingDelete": "always",
-    "editor.formatOnSave": true,
-    "diffEditor.wordWrap": "on"
+    "files.autoSave": "onWindowChange",
+    "emmet.includeLanguages": {
+        "\"ejs\"": "\"html\""
+    }
 }
