@@ -1,29 +1,18 @@
 const User = require('../models/user')
 
-module.exports.profile = function (req, res) {
-
-    console.log(req.cookies);
-
-    if(req.cookies){
-        User.findById(req.cookies.user_id)
-        .then(user=>{
-            if(user){
-                return res.render('user',{
-                    title : "User | Profile"
-                })
-            }
-        })
-        .catch(err=>{
-            console.log('Cookie has been manipulated');
-        })
-    }
-    else{
-        return res.redirect('/user/sign-in');
-    }
+module.exports.profile = function(req, res){
+    return res.render('user_profile', {
+        title: 'User Profile',
+    })
 }
 
 
 module.exports.sigup = function (req,res){
+
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
+
     return res.render('user_sign_up',{
         title : 'User | Sign Up'
     })
@@ -31,6 +20,11 @@ module.exports.sigup = function (req,res){
 
 
 module.exports.sigin = function (req,res){
+
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
+
     return res.render('user_sign_in',{
         title : 'User | Sign In'
     })
@@ -70,23 +64,34 @@ module.exports.create = function(req, res){
 
 
 module.exports.createSession = function(req,res){
-    // TODO
-    User.findOne({email:req.body.email})
-    .then(user=>{
-        if(user){
-            if(user.password != req.body.password){
-                return res.redirect('back');
-            }
-            res.cookie('user_id',user.id);
-            console.log('cookie created',user.id)
-            return res.redirect('/user/profile');
-        }
-        else{
-            return res.redirect('back');
-        }
-    })
-    .catch(err=>{
-        console.log("error in finding user in signing up1",err);
-        return;
-    })
+    // MANUAL AUTHENTICATION
+    // User.findOne({email:req.body.email})
+    // .then(user=>{
+    //     if(user){
+    //         if(user.password != req.body.password){
+    //             return res.redirect('back');
+    //         }
+    //         res.cookie('user_id',user.id);
+    //         console.log('cookie created',user.id)
+    //         return res.redirect('/user/profile');
+    //     }
+    //     else{
+    //         return res.redirect('back');
+    //     }
+    // })
+    // .catch(err=>{
+    //     console.log("error in finding user in signing up1",err);
+    //     return;
+    // })
+
+    // AUTHENTICATION USING PASSPORT 
+    return res.redirect('/');
+}
+
+
+module.exports.signout = function(req,res){
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        return res.redirect('/');
+      });
 }

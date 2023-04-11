@@ -1,3 +1,24 @@
 <header>
-    Page Header
+    <div class="heading">
+        <p class="codeal">
+            Codeal
+        </p>
+    </div>
+    <ul class = nav-menu>
+        <%if (locals.user){%>
+           <li class="nav-items">
+             <a href="/user/profile"><%= user.name%></a>
+           </li>
+           <li class="nav-items">
+             <a href="/user/sign-out">Sign Out</a>
+           </li>
+        <%}else{%>
+                <li class="nav-items">
+                    <a href="/user/sign-in">Sign In</a>
+                </li>
+                <li class="nav-items">
+                    <a href="/user/sign-up">Sign Up</a>
+                </li>
+        <%}%>
+    </ul>
 </header>

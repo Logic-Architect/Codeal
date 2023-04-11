@@ -1,3 +1,19 @@
 <footer>
-    page footer
+    <div class="copyright">
+        &copy;
+        <span>
+            All Rights Reserved
+        </span>
+    </div>
+
+    <ul class="linking">
+        <li>
+            <a href="/">Home</a>
+        </li>
+        <%if (locals.user){%>
+            <li>
+                <a href="/user/profile">Profile</a>
+            </li>
+            <%}%>
+    </ul>
 </footer>
