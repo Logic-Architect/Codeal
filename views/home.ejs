@@ -1,29 +1,25 @@
 <link rel="stylesheet" type="text/css" href="/css/layout.css">
 
 <div class="main">
-    <h1>Codeal / <%= title%>
+    <!-- FEED POST FORM  -->
+    <h1>
+        Codeal / <%= title%>
     </h1>
     <section id="feed-post">
-       <%if (locals.user){%>
-        <form action="/post/create" id="new-post-form" method="post">
-            <h4>Post</h4>
-            <textarea name="content" id="" cols="30" rows="3" placeholder="Type Here...."></textarea>
-            <input type="submit" value="Post">
-        </form>
-        <%}%>
+        <!-- VISIBLE ONLY IF USER IS LOGGED IN  -->
+        <%if (locals.user){%>
+            <form action="/post/create" id="new-post-form" method="post">
+                <h4>Post</h4>
+                <textarea name="content" id="" cols="30" rows="3" placeholder="Type Here...." required></textarea>
+                <input type="submit" value="Post">
+            </form>
+            <%}%>
     </section>
 
+    <!-- DISPLAYING POST : ALL POST TO ALL USER WITH USER NAME WHO POSTED -->
     <ul class="posts-list-container">
         <%for(i of posts){%>
-            <li>
-                <p>
-                    <%= i.content%>
-                    <br>
-                <small>
-                    <%= i.user.name%>
-                </small>
-                </p>
-            </li>
-            <%}%>
+            <%-include('_post')-%>
+        <%}%>
     </ul>
 </div>

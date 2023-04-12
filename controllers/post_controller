@@ -1,16 +1,48 @@
 const Post = require('../models/post');
+const Comment = require('../models/comment')
 
-module.exports.create = function(req,res){
+module.exports.create = function (req, res) {
     Post.create({
-        content : req.body.content,
-        user : req.user._id
+        content: req.body.content,
+        user: req.user._id
     })
-    .then(post=>{
-        console.log('Posted',post);
-        return res.redirect('back');
-    })
-    .catch(err=>{
-        console.log('Error Posting',err);
-        return res.direct('back')
-    });
+        .then(post => {
+            console.log('Posted', post);
+            return res.redirect('back');
+        })
+        .catch(err => {
+            console.log('Error Posting', err);
+            return res.direct('back')
+        });
+}
+
+module.exports.destroy = function (req, res) {
+    Post.findById(req.params.id)
+        .then(post => {
+            console.log(' selected to delete is ',post);
+            // ,ID MEANS AUTOMATIC CONVERSION TO STRING 
+            if (post.user == req.user.id) {
+                // post.remove();
+                console.log('post deleted is ',post);
+                Post.deleteOne(post)
+                    .then(data => {
+                        console.log('deleted');
+                    })
+
+                Comment.deleteMany({ post: req.params.id })
+                    .then(data => {
+                        console.log('deleted successfully');
+                        return res.redirect('back');
+                    })
+                    .catch(err => {
+                       if(err){
+                        console.log('Unable to delete the post');
+                        return res.redirect('back');
+                       }
+                    })
+            }
+            else {
+                res.redirect('back')
+            }
+        })
 }
