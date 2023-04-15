@@ -1,4 +1,4 @@
 # Codeal
 
-This is a social meadia app 
+This is a social media app 
 
