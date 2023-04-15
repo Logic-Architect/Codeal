@@ -1,13 +1,13 @@
 <header>
     <div class="heading">
         <p class="codeal">
-            Codeal
+            <a href="/">Codeal</a>
         </p>
     </div>
     <ul class = nav-menu>
         <%if (locals.user){%>
            <li class="nav-items">
-             <a href="/user/profile"><%= user.name%></a>
+             <a href="/user/profile/<%= user.id%>" ><%= user.name%></a>
            </li>
            <li class="nav-items">
              <a href="/user/sign-out">Sign Out</a>

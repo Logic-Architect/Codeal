@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const { clearScreenDown } = require('readline');
 const app = express();
 const port = 8000;
+const flash = require('connect-flash');
+const customMware = require('./config/middlware')
 
 
 
@@ -67,6 +69,8 @@ app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
 
+app.use(flash());
+app.use(customMware.setflash);
 // RECIEVING REQUEST 
 app.use('/', require('./routes/index'));
 

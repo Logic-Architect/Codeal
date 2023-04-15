@@ -1,11 +1,32 @@
 const User = require('../models/user')
 
 module.exports.profile = function(req, res){
-    return res.render('user_profile', {
-        title: 'User Profile',
+    User.findById(req.params.id)
+    .then(user=>{
+        return res.render('user_profile', {
+            title: 'User Profile',
+            user_profile : user
+        })
     })
 }
 
+
+module.exports.update = function(req,res){
+    if(req.user.id==req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body)
+        .then(user=>{
+            console.log('Updated',user)
+            return res.redirect('back');
+        })
+        .catch(err=>{
+            console.log('Error Updating');
+            return res.redirect('back');
+        })
+    }
+    else{
+        return res.status(401).send('Unauthorized'); 
+    }
+}
 
 module.exports.sigup = function (req,res){
 
@@ -75,7 +96,7 @@ module.exports.createSession = function(req,res){
     //         console.log('cookie created',user.id)
     //         return res.redirect('/user/profile');
     //     }
-    //     else{
+    //     else{m
     //         return res.redirect('back');
     //     }
     // })
@@ -85,6 +106,7 @@ module.exports.createSession = function(req,res){
     // })
 
     // AUTHENTICATION USING PASSPORT 
+    req.flash('success','Logged In Successfully')
     return res.redirect('/');
 }
 
@@ -92,6 +114,9 @@ module.exports.createSession = function(req,res){
 module.exports.signout = function(req,res){
     req.logout(function(err) {
         if (err) { return next(err); }
+
+        req.flash('success','You have been Logged Out!!')
+
         return res.redirect('/');
       });
 }

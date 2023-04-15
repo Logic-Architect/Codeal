@@ -26,6 +26,11 @@ header {
   display: inline;
 }
 
+.codeal a {
+  text-decoration: none;
+  color: white;
+}
+
 .nav-menu {
   list-style: none;
   display: flex;

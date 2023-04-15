@@ -23,3 +23,12 @@
         <%}%>
     </ul>
 </div>
+
+<section id="user_friends">
+    <%for (let u of all_users){%>
+        <p>
+            <a href="/user/profile/<%= u.id%>"><%= u.name%></a>
+        </p>    
+    <%}%>
+
+</section>
