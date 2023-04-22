@@ -11,24 +11,31 @@
             <form action="/post/create" id="new-post-form" method="post">
                 <h4>Post</h4>
                 <textarea name="content" id="" cols="30" rows="3" placeholder="Type Here...." required></textarea>
-                <input type="submit" value="Post">
+                <input type="submit" value="Post" id="submit1">
+
             </form>
             <%}%>
     </section>
 
     <!-- DISPLAYING POST : ALL POST TO ALL USER WITH USER NAME WHO POSTED -->
-    <ul class="posts-list-container">
-        <%for(i of posts){%>
-            <%-include('_post')-%>
-        <%}%>
-    </ul>
+    <div id="posts-list-container">
+        <ul>
+            <% for(i of posts){ %>
+                
+            <%- include('_post') -%>
+                
+            <%} %>
+        </ul>
+    </div>
 </div>
 
 <section id="user_friends">
     <%for (let u of all_users){%>
         <p>
-            <a href="/user/profile/<%= u.id%>"><%= u.name%></a>
+            <a href="/user/profile/<%= u.id%>"><%= u.name%><%= u.password%></a>
         </p>    
     <%}%>
 
 </section>
+<!-- 
+<script src="/js/home_post.js"></script> -->

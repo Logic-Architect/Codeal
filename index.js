@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path')
 const { urlencoded } = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { clearScreenDown } = require('readline');
@@ -36,6 +37,9 @@ const db = require('./config/mongoose');
 
 // SETTING  PATH TO STATIC FILES 
 app.use(express.static('./assets'));
+
+// MAKE AVAILABLE UPLOADS OF THE USER 
+app.use('/uploads',express.static(__dirname + '/uploads'))
 
 // CONFIGURING VIEWS AND VIEW ENGINE 
 app.set('view engine', 'ejs');
