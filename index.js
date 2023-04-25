@@ -6,7 +6,8 @@ const { clearScreenDown } = require('readline');
 const app = express();
 const port = 8000;
 const flash = require('connect-flash');
-const customMware = require('./config/middlware')
+const customMware = require('./config/middlware');
+const googleStrategy = require('./config/passport-google-oauth2-strategy');
 
 
 
