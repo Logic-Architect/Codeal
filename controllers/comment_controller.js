@@ -1,6 +1,7 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 const User = require('../models/user');
+const commentMailer = require('../mailers/comment_mailer');
 
 module.exports.create = async function (req, res) {
     // Post.findById(req.body.post)
@@ -32,6 +33,12 @@ module.exports.create = async function (req, res) {
 
         post.comment.push(comment);
         post.save();
+
+        comment = await comment.populate('user', 'name email')
+            .then(comment => {
+                // console.log('info',comment);
+                commentMailer.newComment(comment);
+            });
 
         if (req.xhr) {
             console.log('entered comments');
@@ -104,7 +111,7 @@ module.exports.create = async function (req, res) {
 
 //                 Post.findByIdAndUpdate(postid, { $pull: { comment: req.params.id } })
 //                     .then(data => {
-            
+
 //                     })
 //                     .catch(err => {
 //                         return res.redirect('back');
@@ -157,58 +164,58 @@ module.exports.create = async function (req, res) {
 
 module.exports.destroy = async function (req, res) {
     console.log('0')
-    let comment =await Comment.findById(req.params.id)
+    let comment = await Comment.findById(req.params.id)
     console.log(comment)
-    let postid =await comment.post;
+    let postid = await comment.post;
     console.log(postid)
 
     if (req.user.id == comment.user) {
         console.log('1')
 
-        let deletedComment =await Comment.deleteOne(comment)
+        let deletedComment = await Comment.deleteOne(comment)
         console.log('Successfully deleted the comment', deletedComment);
-                 
-                 
 
-        let updatedPost =await Post.findByIdAndUpdate(postid, { $pull: { comment: req.params.id } });
+
+
+        let updatedPost = await Post.findByIdAndUpdate(postid, { $pull: { comment: req.params.id } });
         console.log('Updated Post is', updatedPost)
-                    
 
-        if(req.xhr){
+
+        if (req.xhr) {
             console.log('ready to delete comment')
         }
 
-         return res.redirect('back');
-                   
+        return res.redirect('back');
+
     }
     else {
         console.log('2')
-        
-                
-        let post  =await Post.findById(postid)
-                            
-            if (post.user == req.user.id) {
-                console.log('3')
-            let deletedComment =await Comment.deleteOne(comment);
+
+
+        let post = await Post.findById(postid)
+
+        if (post.user == req.user.id) {
+            console.log('3')
+            let deletedComment = await Comment.deleteOne(comment);
             console.log('Successfully deleted the comment', deletedComment);
 
-                    
 
-            let updatedPost =await Post.findByIdAndUpdate(postid, { $pull: { comment: req.params.id } })
-            console.log('Updated Post is', updatedPost)       
 
-            if(req.xhr){
+            let updatedPost = await Post.findByIdAndUpdate(postid, { $pull: { comment: req.params.id } })
+            console.log('Updated Post is', updatedPost)
+
+            if (req.xhr) {
                 console.log('ready to delete comment');
             }
 
             return res.redirect('back');
-    
-                
-            }
-            else {
-                req.flash('error','Unauthorized')
-                return res.redirect('back')
-            }
-                            
+
+
         }
+        else {
+            req.flash('error', 'Unauthorized')
+            return res.redirect('back')
+        }
+
+    }
 }

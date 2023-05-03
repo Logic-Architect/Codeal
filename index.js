@@ -7,7 +7,6 @@ const app = express();
 const port = 8000;
 const flash = require('connect-flash');
 const customMware = require('./config/middlware');
-const googleStrategy = require('./config/passport-google-oauth2-strategy');
 
 
 
@@ -16,6 +15,7 @@ const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const passportJWT = require('./config/passport-jwt-strategy');
+const googleStrategy = require('./config/passport-google-oauth2-strategy');
 
 
 
@@ -72,8 +72,8 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(passport.setAuthenticatedUser);
+
 
 app.use(flash());
 app.use(customMware.setflash);
