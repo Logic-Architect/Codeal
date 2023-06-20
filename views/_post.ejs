@@ -6,12 +6,13 @@
             </small>
             <%}%>
             <%= i.content%>
+            <i class="fa-regular fa-thumbs-up like"></i>
             <br>
             <small>
                 <%= i.user.name%>
-                <%= i.user.password%>
             </small>
     </p>
+
     <!-- COMMENT FORM  -->
     <%if (locals.user){%>
         <form action="/comments/create" id="new-comment-form" method="post">

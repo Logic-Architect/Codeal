@@ -39,6 +39,7 @@ console.log('home script');
                         </small>
                        
                         ${post.content}
+                        <i class="fa-regular fa-thumbs-up like"></i>
                         <br>
                         <small>
                         ${user.name}
